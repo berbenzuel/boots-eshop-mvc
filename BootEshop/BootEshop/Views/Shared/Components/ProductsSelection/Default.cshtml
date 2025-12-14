@@ -1,0 +1,9 @@
+@using BootEshop.Models.Entities
+@model BootEshop.ViewModels.ProductSelectionViewModel
+
+
+<div>
+    <h1 class="fw-light">@Model.Header</h1>
+    <h1 class="fw-bold">@Model.HeaderBold</h1>
+    @await Component.InvokeAsync("ProductGrid", Model.Products)
+</div>

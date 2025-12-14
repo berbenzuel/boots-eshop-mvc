@@ -1,0 +1,25 @@
+.product-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+    
+}
+
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    outline: var(--color-dark) solid 2px;
+}
+.product-item-prices {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.product-item-desc {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+}

@@ -1,0 +1,13 @@
+@using BootEshop.Models.Entities;
+@model IEnumerable<Product>
+
+@section Styles
+{
+    
+}
+<div class="product-grid">
+    @foreach (var item in Model)
+    {
+        @await Component.InvokeAsync(name:"ProductItem", item) 
+    }
+</div>

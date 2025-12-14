@@ -1,0 +1,34 @@
+@using BootEshop.Models.Entities
+@model Product
+
+
+
+<div class="product-item">
+    <img
+        src="@Url.Action(
+            "ProductImage",
+            "Source",
+            new { id = Model.Id }
+        )"
+        alt="boot-picture: @Model.Id" class="w-100"/>
+    <span class="fw-bold px-2 color-dark">
+        @Model.Name
+    </span>
+    <div class="product-item-desc px-2">
+        <div class="product-item-prices">
+            @if (@Model.SalePrice is not null)
+            {
+                <span class="color-accent fw-bold">@Model.SalePrice Kč</span>
+                <span class="color-dark fw-light text-decoration-line-through">@Model.Price Kč</span>
+            }
+            else
+            {
+                <span class="color-primary fw-bold">@Model.Price Kč</span>
+            }
+        </div>
+
+        <a class="color-dark" href="../Form/form.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+    </div>
+</div>

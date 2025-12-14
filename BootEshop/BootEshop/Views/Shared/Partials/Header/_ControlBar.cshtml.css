@@ -1,0 +1,19 @@
+div {
+    height: 3rem;
+}
+a {
+    height: 3rem;
+}
+a i {
+    font-size: 3rem !important;
+}
+.search-input:focus {
+    outline: none !important;
+}
+
+.search-input {
+    border: none !important;
+}
+.search-panel i {
+    font-size: 2rem !important;
+}

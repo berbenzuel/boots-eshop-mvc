@@ -1,0 +1,46 @@
+:root {
+    --color-base: #FFFFFF;
+    --color-primary: #3F88C5;
+    --color-accent: #E94F37;
+    --color-dark: #393E41;
+}
+
+
+.border-color-primary {
+    border-color: var(--color-primary) !important;
+}
+.border-color-base {
+    border-color: var(--color-base) !important;
+}
+.border-color-accent {
+    border-color: var(--color-accent) !important;
+}
+.border-color-dark {
+    border-color: var(--color-dark) !important;
+}
+
+.background-color-primary {
+    background-color: var(--color-primary) !important;
+}
+.background-color-base {
+    background-color: var(--color-base) !important;
+}
+.background-color-accent {
+    background-color: var(--color-accent) !important;
+}
+.background-color-dark {
+    background-color: var(--color-dark) !important;
+}
+
+.color-base {
+    color: var(--color-base) !important;
+}
+.color-accent {
+    color: var(--color-accent) !important;
+}
+.color-dark {
+    color: var(--color-dark) !important;
+}
+.color-primary {
+    color: var(--color-primary) !important;
+}

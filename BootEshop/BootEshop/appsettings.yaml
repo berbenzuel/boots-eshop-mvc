@@ -1,0 +1,17 @@
+
+appConfig :
+  logging:
+    logLevel:
+      Default: Information
+      Microsoft.AspNetCore: Warning
+  
+  database: 
+    name: "4b2_zukovnik_db1"
+    connection:
+      server: mysqlstudenti.litv.sssvt.cz
+      userName: zukovnik
+      password: 123456
+      
+  source:
+    productImage: "Assets/Product"
+    carrouselImage: "./"
