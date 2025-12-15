@@ -1,5 +1,4 @@
-
-appConfig :
+appConfig:
   logging:
     logLevel:
       Default: Information

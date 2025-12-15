@@ -26,4 +26,9 @@ public class SourceController : Controller
         Response.Headers.CacheControl = "public,max-age=604800";
         return PhysicalFile(path, "image/png");
     }
+
+    //public IActionResult CarrouselImage(int id)
+    //{
+
+    //}
 }
