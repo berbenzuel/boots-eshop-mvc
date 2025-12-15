@@ -4,13 +4,17 @@
 
 
 <div class="product-item">
-    <img
-        src="@Url.Action(
-            "ProductImage",
-            "Source",
-            new { id = Model.Id }
-        )"
-        alt="boot-picture: @Model.Id" class="w-100"/>
+    <div class="ratio ratio-1x1 background-color-primary">
+        <img
+            class="img-fluid object-fit-cover"
+            src="@Url.Action(
+                     "ProductImage",
+                     "Source",
+                     new { id = Model.Id }
+                 )"
+            alt="boot-picture: @Model.Id" />    
+    </div>
+    
     <span class="fw-bold px-2 color-dark">
         @Model.Name
     </span>

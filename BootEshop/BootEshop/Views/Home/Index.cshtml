@@ -3,10 +3,20 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="text-center">
+
+@section Styles
+{
+    <link rel="stylesheet" href="css/features/product.css" />
+    <link rel="stylesheet" href="css/features/home.css" />
+    
+}
+<div class="text-center d-flex flex-column  gap-5 ">
     <partial name="Partials/Home/_Carrousel"/>
-    @await Component.InvokeAsync("ProductsSelection", new ProductsSelectionArgs(10, "foo", "bar", new CatalogFilter()
-    {
-        Category = Category.NewProduct
-    }))
+    @await Component.InvokeAsync("ProductsSelection", new ProductsSelectionArgs("foo", "bar", new CatalogFilter()
+        {
+            Count = 10,
+            Category = Category.RecommendedProduct
+        }
+        ));
+    
 </div>

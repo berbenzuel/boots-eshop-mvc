@@ -26,4 +26,14 @@ public class SourceController : Controller
         Response.Headers.CacheControl = "public,max-age=604800";
         return PhysicalFile(path, "image/png");
     }
+
+    public IActionResult CarrouselImage(int id)
+    {
+        var path = Path.Combine(_env.ContentRootPath, _config.CarrouselImage, $"{id}");
+        if (!System.IO.File.Exists(path))
+            return NotFound();
+            
+        Response.Headers.CacheControl = "public,max-age=604800";
+        return PhysicalFile(path, "image/png");
+    }
 }

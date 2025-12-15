@@ -14,4 +14,4 @@ appConfig :
       
   source:
     productImage: "Assets/Product"
-    carrouselImage: "./"
+    carrouselImage: "Assets/Carrousel"

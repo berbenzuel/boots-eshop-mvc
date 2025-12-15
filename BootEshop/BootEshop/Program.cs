@@ -1,4 +1,6 @@
 using BootEshop.Models;
+using BootEshop.Models.Services;
+using Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BootEshop
@@ -27,8 +29,15 @@ namespace BootEshop
             builder.Services.Configure<AppConfig>(
                 builder.Configuration.GetSection("appConfig"));
             
+            //registering services make better
+            builder.Services.AddScoped<ProductService>();
+            
+            
+
 
             var app = builder.Build();
+            
+            
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,23 +1,28 @@
 using BootEshop.Models;
 using BootEshop.Models.Entities;
+using BootEshop.Models.Services;
 using BootEshop.ViewArgs;
 using BootEshop.ViewModels;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.ViewComponents;
 
 public class ProductsSelectionViewComponent : ViewComponent
 {
-    private readonly EshopContext _context;
+    private readonly ProductService _service;
 
-    public ProductsSelectionViewComponent(EshopContext context)
+    public ProductsSelectionViewComponent(ProductService service)
     {
-        _context = context;
+        _service = service;
     }
     
     public async Task<IViewComponentResult> InvokeAsync(ProductsSelectionArgs args)
     {
         //replace with fetch
+        
+        //this._service.GetEntity()
+        
         var products = new List<Product>();
         products.Add(new Product()
         {
@@ -28,9 +33,10 @@ public class ProductsSelectionViewComponent : ViewComponent
         });
         
         
-        for (var i = 0; i < args.Count; i++)
+        for (var i = 0; i < args.Filter.Count; i++)
         {
             if (i % 2 == 0)
+                
             {
                 products.Add(new Product()
                 {

@@ -1,10 +1,9 @@
-using Database;
-using BootEshop.ViewArgs;
+using BootEshop.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BootEshop.Models;
+namespace Database.Models;
 
 public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
@@ -53,8 +52,8 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     
     public EshopContext(DbContextOptions<EshopContext> options): base(options)
     {
-        this.Database.EnsureDeleted();
-        this.Database.EnsureCreated();
+        // this.Database.EnsureDeleted();
+        // this.Database.EnsureCreated();
         //this.Database.Migrate(); <-- i need to fix migrations
         
         

@@ -8,7 +8,7 @@ public class Product
     public string LongDescription { get; set; }
     public double Price { get; set; }
     public double? SalePrice { get; set; }
-    
+    public DateTime Created { get; set; }
     
     public Guid CategoryId { get; set; }
     public Guid ProductColorId { get; set; }
