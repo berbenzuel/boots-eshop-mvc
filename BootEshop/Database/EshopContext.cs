@@ -1,4 +1,5 @@
-using BootEshop.Models.Entities;
+using Database;
+using BootEshop.ViewArgs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,14 @@ namespace BootEshop.Models;
 
 public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<User> Users { get; set; }
-
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Order> Order { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<Manufacturer> Manufacturer { get; set; }
+    public DbSet<ProductCategory> ProductCategory { get; set; }
+    public DbSet<ProductColor> ProductColor { get; set; }
+    public DbSet<ProductSize> ProductSize { get; set; }
+    public DbSet<Stock> Stock { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,8 +53,10 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     
     public EshopContext(DbContextOptions<EshopContext> options): base(options)
     {
-        // this.Database.EnsureDeleted();
-        // this.Database.EnsureCreated();
+        this.Database.EnsureDeleted();
+        this.Database.EnsureCreated();
         //this.Database.Migrate(); <-- i need to fix migrations
+        
+        
     }
 }

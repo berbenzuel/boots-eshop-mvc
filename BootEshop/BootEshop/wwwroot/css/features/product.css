@@ -23,3 +23,10 @@
     gap: 1rem;
     justify-content: space-between;
 }
+
+.image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: var(--color-primary);
+    overflow: hidden;
+}

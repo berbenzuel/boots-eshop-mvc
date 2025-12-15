@@ -1,23 +1,22 @@
 using System.Diagnostics;
+using BootEshop.Controllers.Services;
 using BootEshop.Models;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private EshopContext _dbContext;
+        private readonly CatalogService _catalogService;
 
-        public HomeController(ILogger<HomeController> logger, EshopContext dbContext)
+        public HomeController(CatalogService service)
         {
-            _logger = logger;
-            _dbContext = dbContext;
+            _catalogService = service;
         }
 
         public IActionResult Index()
         {
-            this.ViewBag.Foo = _dbContext.Products.Count();
             return View();
         }
 
