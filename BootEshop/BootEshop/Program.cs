@@ -2,6 +2,7 @@ using BootEshop.Models;
 using BootEshop.Models.Services;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BootEshop
 {
@@ -13,15 +14,15 @@ namespace BootEshop
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Configuration.AddYamlFile("./appsettings.yaml", optional: false, reloadOnChange: true);
+            builder.Configuration.AddYamlFile("appsettings.yaml", optional: false, reloadOnChange: true);
             
             
 
             var dbCfg= builder.Configuration.GetSection("appConfig:database").Get<DatabaseConfig>()
                 ?? throw new ArgumentNullException("appsettings.yaml", "Database configuration not found");
-            
+
             // adding context to services
-            builder.Services.AddDbContext<EshopContext>(o =>
+            object value = builder.Services.AddDbContext<EshopContext>(o =>
             {
                 o.UseMySQL(dbCfg.ConnectionString);
             });
