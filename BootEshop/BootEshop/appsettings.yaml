@@ -14,3 +14,4 @@ appConfig:
   source:
     productImage: "Assets/Product"
     carrouselImage: "Assets/Carrousel"
+    categoryImage: "Assets/Category"

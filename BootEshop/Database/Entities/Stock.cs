@@ -1,3 +1,5 @@
+using Database.Entities;
+
 namespace BootEshop.Models.Entities;
 
 public class Stock
@@ -12,4 +14,5 @@ public class Stock
     public Product Product { get; set; }
     public ProductColor ProductColor { get; set; }
     public ProductSize Size { get; set; }
+    public ICollection<OrderStock> OrderStocks { get; set; }
 }

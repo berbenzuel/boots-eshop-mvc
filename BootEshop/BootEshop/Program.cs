@@ -1,6 +1,9 @@
+using System.Security.Claims;
 using BootEshop.Models;
+using BootEshop.Models.Entities;
 using BootEshop.Models.Services;
 using Database.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -27,14 +30,18 @@ namespace BootEshop
                 o.UseMySQL(dbCfg.ConnectionString);
             });
             
+            
             builder.Services.Configure<AppConfig>(
                 builder.Configuration.GetSection("appConfig"));
             
-            //registering services make better
-            builder.Services.AddScoped<ProductService>();
             
-            
-
+            builder.Services.AddIdentityCore<User>(options =>
+                {
+                    options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
+                })
+                .AddRoles<IdentityRole>()                      
+                .AddEntityFrameworkStores<EshopContext>()
+                .AddSignInManager();
 
             var app = builder.Build();
             

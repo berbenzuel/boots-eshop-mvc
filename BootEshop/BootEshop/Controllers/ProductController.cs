@@ -1,15 +1,16 @@
 using BootEshop.Models.Services;
+using Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.Controllers;
 
 public class ProductController : Controller
 {
-    private readonly ProductService _productService;
+    private readonly EshopContext  _context;
     
-    public ProductController(ProductService productService)
+    public ProductController(EshopContext context)
     {
-        _productService = productService;
+        _context = context;
     }
 
     
@@ -18,4 +19,6 @@ public class ProductController : Controller
     {
         return View();
     }
+    
+    
 }

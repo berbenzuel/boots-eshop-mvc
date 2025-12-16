@@ -1,4 +1,5 @@
 using BootEshop.Models.Entities;
+using Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<ProductColor> ProductColor { get; set; }
     public DbSet<ProductSize> ProductSize { get; set; }
     public DbSet<Stock> Stock { get; set; }
+    public DbSet<OrderStock> OrderStock { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,18 +46,22 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .HasOne(o => o.User)
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId);
-        
-        modelBuilder.Entity<Order>()
-            .HasMany<Product>().WithMany();
+
+        modelBuilder.Entity<OrderStock>()
+            .HasOne<Stock>(s => s.Stock)
+            .WithMany(s => s.OrderStocks);
+        modelBuilder.Entity<OrderStock>()
+            .HasOne<Order>(o => o.Order)
+            .WithMany(o => o.OrderStocks);
         
     }
     
     public EshopContext(DbContextOptions<EshopContext> options): base(options)
     {
-        // this.Database.EnsureDeleted();
-        // this.Database.EnsureCreated();
+         this.Database.EnsureDeleted();
+        this.Database.EnsureCreated();
         //this.Database.Migrate(); <-- i need to fix migrations
-        
-        
+
+
     }
 }
