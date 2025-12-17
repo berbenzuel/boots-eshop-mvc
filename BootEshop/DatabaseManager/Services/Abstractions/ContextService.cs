@@ -1,21 +1,23 @@
-using Database.Models;
+using BootEshop.ViewArgs;
+using Database;
+using Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace BootEshop.Models.Abstractions;
 
 public abstract class ContextService<TEntity>(EshopContext dbContext) where TEntity : class
 {
-    protected readonly EshopContext _context = dbContext;
+    protected readonly DbContext _context = dbContext;
 
 
-    public TEntity GetEntity<TKey>(TKey key)
+    public TEntity? GetEntity<TKey>(TKey key)
     {
         return _context.Set<TEntity>().Find(key);
     }
 
-    public TEntity? Foo<TKey>(TKey key) where TKey : notnull
+    public IQueryable<TEntity> GetEntities()
     {
-        return this._context.Find<TEntity>(key);
+        return _context.Set<TEntity>();
     }
     //public abstract IEnumerable<TEntity> GetEntities();
 }

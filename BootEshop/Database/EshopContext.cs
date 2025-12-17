@@ -1,10 +1,10 @@
-using BootEshop.Models.Entities;
 using Database.Entities;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Models;
+namespace Database;
 
 public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {

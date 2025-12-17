@@ -1,7 +1,7 @@
 using Database.Entities;
 
-namespace BootEshop.Models.Entities;
 
+namespace Database.Entities;
 public class Stock
 {
     public Guid Id { get; set; }

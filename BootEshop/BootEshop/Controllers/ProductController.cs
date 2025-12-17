@@ -1,16 +1,18 @@
+using System.Runtime.CompilerServices;
 using BootEshop.Models.Services;
-using Database.Models;
+using BootEshop.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.Controllers;
 
 public class ProductController : Controller
 {
-    private readonly EshopContext  _context;
     
-    public ProductController(EshopContext context)
+    ProductService _productService;
+    
+    public ProductController(ProductService service)
     {
-        _context = context;
+        _productService = service;
     }
 
     

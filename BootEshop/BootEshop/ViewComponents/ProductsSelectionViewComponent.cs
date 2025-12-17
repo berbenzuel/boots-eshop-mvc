@@ -1,9 +1,11 @@
 using BootEshop.Models;
-using BootEshop.Models.Entities;
+
 using BootEshop.Models.Services;
+using BootEshop.Services;
 using BootEshop.ViewArgs;
 using BootEshop.ViewModels;
-using Database.Models;
+using Database.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.ViewComponents;

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootEshop", "BootEshop\Boot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7A0B30DD-6CB3-444B-BA10-F89E608FD018}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseManager", "DatabaseManager\DatabaseManager.csproj", "{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7A0B30DD-6CB3-444B-BA10-F89E608FD018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A0B30DD-6CB3-444B-BA10-F89E608FD018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A0B30DD-6CB3-444B-BA10-F89E608FD018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

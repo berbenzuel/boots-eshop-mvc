@@ -1,4 +1,4 @@
-namespace BootEshop.Models.Entities;
+namespace Database.Entities;
 
 public class Product
 {

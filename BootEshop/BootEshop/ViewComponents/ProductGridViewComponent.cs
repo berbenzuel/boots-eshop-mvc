@@ -1,4 +1,5 @@
-using BootEshop.Models.Entities;
+
+using Database.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.ViewComponents;

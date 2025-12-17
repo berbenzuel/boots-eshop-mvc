@@ -1,16 +1,17 @@
 using BootEshop.Models.Abstractions;
-using BootEshop.Models.Entities;
-using BootEshop.ViewArgs;
-using Database.Models;
 
-namespace BootEshop.Models.Services;
+using BootEshop.ViewArgs;
+using Database;
+using Database.Entities;
+
+
+namespace BootEshop.Services;
 
 public class ProductService(EshopContext dbContext) : ContextService<Product>(dbContext)
 {
  public IEnumerable<Product> GetProducts(CatalogFilter filter)
      {
          var query = this._context.Set<Product>();
-    
          
          switch (filter.Category)
          {
@@ -29,7 +30,6 @@ public class ProductService(EshopContext dbContext) : ContextService<Product>(db
                  query.Where(p => p.ProductCategory.Name == "girl");
                  break;
          }
-         
          return query;
      }
 }

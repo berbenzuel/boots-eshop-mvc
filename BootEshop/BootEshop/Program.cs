@@ -1,8 +1,10 @@
 using System.Security.Claims;
 using BootEshop.Models;
-using BootEshop.Models.Entities;
+
 using BootEshop.Models.Services;
-using Database.Models;
+using BootEshop.Services;
+using Database;
+using Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,14 +36,18 @@ namespace BootEshop
             builder.Services.Configure<AppConfig>(
                 builder.Configuration.GetSection("appConfig"));
             
+            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<OrderService>();
+            builder.Services.AddScoped<UserService>();
             
-            builder.Services.AddIdentityCore<User>(options =>
-                {
-                    options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
-                })
-                .AddRoles<IdentityRole>()                      
-                .AddEntityFrameworkStores<EshopContext>()
-                .AddSignInManager();
+            
+            // builder.Services.AddIdentityCore<User>(options =>
+            //     {
+            //         options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
+            //     })
+            //     .AddRoles<IdentityRole>()                      
+            //     .AddEntityFrameworkStores<EshopContext>()
+            //     .AddSignInManager();
 
             var app = builder.Build();
             

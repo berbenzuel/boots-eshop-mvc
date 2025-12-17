@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using  BootEshop.Models.Services;
+
 using BootEshop.Models;
-using BootEshop.Models.Services;
-using Database.Models;
+
+using Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BootEshop.Controllers

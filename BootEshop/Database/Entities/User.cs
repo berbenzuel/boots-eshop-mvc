@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace BootEshop.Models.Entities;
+namespace Database.Entities;
 
 public class User : IdentityUser<Guid>
 {
