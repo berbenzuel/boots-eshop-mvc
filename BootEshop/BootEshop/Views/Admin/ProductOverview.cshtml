@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Database.Entities.Product>
+
+<div>
+    <table>
+        <thead>
+            <tr>name</tr>
+        </thead>
+        @foreach (var product in Model)
+        {
+            <span>@product.Name</span>
+        }
+    </table>
+    
+</div>
+
