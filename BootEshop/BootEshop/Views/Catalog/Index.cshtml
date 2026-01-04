@@ -1,0 +1,18 @@
+@using BootEshop.ViewArgs
+@model BootEshop.ViewModels.CatalogViewModel
+
+
+@section Scripts {
+    <script>
+        window.catalogFilter = @Html.Raw(
+        Json.Serialize(Model.FilterModel));
+    </script>
+    <script src="~/js/catalog.js" defer></script>
+    
+}
+
+
+
+<div id="product-grid">
+    @await Component.InvokeAsync("CatalogGrid", Model.FilterModel)
+</div>  

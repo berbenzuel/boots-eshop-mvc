@@ -10,17 +10,20 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BootEshop.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/var.css" />
-    <link rel="stylesheet" href="~/css/common.css" />
-    @await RenderSectionAsync("Styles", required: false)
+    <link rel="stylesheet" href="~/css/common/common.css" />
+    <link rel="stylesheet" href="~/css/product.css" />
+    <link rel="stylesheet" href="~/css/common/global-asp.css" />
+    <link rel="stylesheet" href="~/css/common/separator.css" />
+    
     <script src="https://kit.fontawesome.com/3db67ba0a9.js" crossorigin="anonymous"></script>
 </head>
-<body class="background-color-base">
+<body class="background-color-base h-100">
     <header>
         <partial name="Partials/Header/_LoginBar" />
     </header>
 
     <main role="main">
-        <div class="px-main">
+        <div class="d-flex flex-row gap-5 px-main">
             <div>
                 <partial name="Partials/Header/_AdminNavBar"/>
             </div>
@@ -31,11 +34,12 @@
         </div>
 
     </main>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - BootEshop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2025 - BootEshop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
+@await RenderSectionAsync("Styles", required: false)
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

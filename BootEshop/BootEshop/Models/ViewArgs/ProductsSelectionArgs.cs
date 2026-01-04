@@ -1,8 +1,8 @@
 namespace BootEshop.ViewArgs;
 
-public record ProductsSelectionArgs(string header, string headerBold, CatalogFilter filter)
+public record ProductsSelectionArgs(string header, string headerBold, ProductFilterModelDto FilterModel)
 {
-    public CatalogFilter Filter { get; set; } = filter;
+    public ProductFilterModelDto FilterModel { get; set; } = FilterModel;
     public string Header { get; set; } = header;
     public string HeaderBold { get; set; } = headerBold;
 }

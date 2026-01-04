@@ -11,14 +11,12 @@ public class Product
     public double? SalePrice { get; set; }
     public DateTime Created { get; set; }
     
-    public Guid CategoryId { get; set; }
-    public Guid ProductColorId { get; set; }
-    public Guid ProductSizeId { get; set; }
+    public Guid ProductCategoryId { get; set; }
     public Guid ManufacturerId { get; set; }
     
     public ProductCategory ProductCategory { get; set; }
-    public ProductColor ProductColor { get; set; }
-    public ProductSize ProductSize { get; set; }
+    public ICollection<ProductColor> ProductColors { get; set; }
+    public ICollection<ProductSize> ProductSizes { get; set; }
     public Manufacturer Manufacturer { get; set; }
     
     

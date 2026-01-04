@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +26,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\Components\RecommendedProducts\Default.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Components\Product\ProductItem\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\CatalogGrid\Default.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,12 +34,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseManager\DatabaseManager.csproj" />
+    <ProjectReference Include="..\BootEshopConfiguration\BootEshopConfiguration.csproj" />
+    <ProjectReference Include="..\ServiceManager\ServiceManager.csproj" />
     <ProjectReference Include="..\Database\Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Assets\Category\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\catalog.js" />
   </ItemGroup>
 
 

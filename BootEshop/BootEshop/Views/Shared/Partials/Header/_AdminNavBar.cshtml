@@ -1,40 +1,29 @@
-<nav id="admin-nav" class="navbar navbar-light bg-light">
-    <a class="navbar-brand" asp-controller="Admin" asp-action="Index">Admin</a>
-    <nav class="nav nav-pills flex-column">
-        <a class="nav-link" href="#item-1">produkty</a>
-        <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#item-1-1">sprava</a>
-            <a class="nav-link ml-3 my-1" href="#item-1-2">pridat</a>
-        </nav>
-        <a class="nav-link" href="#item-2">Objednávky</a>
-        <a class="nav-link" href="#item-3">Item3</a>
-        <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#item-3-1">Item 3-1</a>
-            <a class="nav-link ml-3 my-1" href="#item-3-2">Item 3-2</a>
+<div>
+    
+    
+    <a asp-controller="Home" asp-action="Index"class="d-flex  flex-row align-items-center gap-2 justify-content-center">
+        <i class="fa-solid fa-house"></i>
+        <span>home</span>
+    </a>        
+    <nav class="navbar navbar-light bg-light d-flex flex-column gap-5 align-content-start">
+        <a class="navbar-brand" asp-controller="Admin" asp-action="Index">Admin</a>
+
+        <nav class="nav nav-pills flex-column px-5">
+            <a class="nav-link" asp-controller="Admin" asp-action="ProductOverview">Produkty</a>
+
+            <div class="nav nav-pills flex-column nav-nested">
+                <a class="nav-link" asp-controller="Admin" asp-action="ProductOverview">Správa</a>
+                <a class="nav-link" asp-controller="Admin" asp-action="AddProduct">Pridať</a>
+            </div>
+
+            <a class="nav-link" href="#item-2">Objednávky</a>
+
+            <a class="nav-link" href="#item-3">Item 3</a>
+
+            <div class="nav nav-pills flex-column nav-nested">
+                <a class="nav-link" href="#item-3-1">Item 3-1</a>
+                <a class="nav-link" href="#item-3-2">Item 3-2</a>
+            </div>
         </nav>
     </nav>
-</nav>
-
-
-<div class="nav-bar d-flex flex-row">
-    <a class="admin-lid" href="#">
-        Objednávky
-    </a>
-    <li class="admin-li" href="#">
-        produkty
-        <ul>
-            <li>zprava</li>
-            <li>pridat</li>
-        </ul>
-    </li>
-    <li class="admin-li" href="#">
-        uzivatele
-    </li>
-
-    
-    
-    @if (this.User.IsInRole("admin"))
-    {
-        <span>admin</span>
-    }
 </div>

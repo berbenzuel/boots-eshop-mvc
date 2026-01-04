@@ -12,6 +12,6 @@ appConfig:
       password: 123456
       
   source:
-    productImage: "Assets/Product"
-    carrouselImage: "Assets/Carrousel"
-    categoryImage: "Assets/Category"
+    productImage: "/home/berbenzuel/school/prg/boots-eshop-mvc/BootEshop/BootEshop/Assets/Product/"
+    carrouselImage: "/home/berbenzuel/school/prg/boots-eshop-mvc/BootEshop/BootEshop/Assets/Carrousel/"
+    categoryImage: "/home/berbenzuel/school/prg/boots-eshop-mvc/BootEshop/BootEshop/Assets/Category/"

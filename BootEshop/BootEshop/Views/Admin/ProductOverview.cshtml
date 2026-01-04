@@ -1,15 +1,50 @@
 ﻿@model IEnumerable<Database.Entities.Product>
 
 <div>
-    <table>
-        <thead>
-            <tr>name</tr>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark background-color-primary">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Stock Price</th>
+            <th>Price</th>
+            <th>Sale Price</th>
+            <th>Stock</th> <!-- empty column for actions -->
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
+        <tbody>
         @foreach (var product in Model)
         {
-            <span>@product.Name</span>
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>@product.StockPrice.ToString("C")</td>
+            <td>@product.Price.ToString("C")</td>
+            <td>@(product.SalePrice.HasValue ? product.SalePrice.Value.ToString("C") : "-")</td>
+            <td></td> <!-- empty cell for future buttons/actions -->
+            <td>
+                <a asp-controller="Admin" asp-action="EditProduct" asp-route-productId="@product.Id" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Admin" asp-action="DeleteProduct" asp-route-productId="@product.Id" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </td>
+            <td>
+                @* finish for preview *@
+                <a asp-controller="Admin" asp-action="EditProduct" asp-route-productId="@product.Id" title="Preview">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+            </td>
+        </tr>
         }
+        </tbody>
     </table>
-    
 </div>
+
 

@@ -1,0 +1,6 @@
+table th {
+    background-color: var(--color-primary);
+}
+table {
+    margin-top: 5rem;
+}

@@ -1,20 +1,22 @@
 <div class="nav-bar d-flex flex-row">
-    <a class="category-nav" href="#">
+    <a class="nav-item-menu-home" asp-controller="Catalog" asp-action="BoyCatalog">
         Chlapecké
         <i class="fa-solid fa-child"></i>
     </a>
-    <a class="category-nav" href="#">
+    <a class="nav-item-menu-home" asp-controller="Catalog" asp-action="GirlCatalog">
         Dívčí
         <i class="fa-solid fa-child-dress"></i>
     </a>
-    <a class="category-nav" href="#">Doplňky</a>
-    <a class="category-nav" href="#">Ostatní</a>
-    <a class="category-nav" id="contact-category" href="#">Kontakt</a>
-    <a class="category-nav" asp-controller="Admin" asp-action="Index">Adminek</a>
+    <a class="nav-item-menu-home" asp-controller="Admin" asp-action="Index">Doplňky</a>
+    <a class="nav-item-menu-home" asp-controller="Admin" asp-action="Index">Ostatní</a>
+    <a class="nav-item-menu-home" asp-controller="Home" asp-action="Index">Kontakt</a>
+    <a asp-controller="Admin" asp-action="Index" class="nav-item-menu-home" >Adminek</a>    
     
     
-    @if (this.User.IsInRole("admin"))
-    {
-        <span>admin</span>
-    }
+    
+    @* asp-controller="Admin" asp-action="Index" *@
+    @* @if (this.User.IsInRole("admin")) *@
+    @* { *@
+    @*     <span>admin</span> *@
+    @* } *@
 </div>

@@ -3,6 +3,7 @@ using Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace Database;
 
@@ -26,10 +27,11 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<Product>()
             .HasKey(p => p.Id);
         modelBuilder.Entity<Product>()
-            .HasOne<ProductColor>(p => p.ProductColor)
-            .WithMany(pc => pc.Products);
+            .HasMany<ProductColor>(p => p.ProductColors)
+            .WithMany(pc => pc.Products)
+            ;
         modelBuilder.Entity<Product>()
-            .HasOne<ProductSize>(p => p.ProductSize)
+            .HasMany<ProductSize>(p => p.ProductSizes)
             .WithMany(ps => ps.Products);
         modelBuilder.Entity<Product>()
             .HasOne<ProductCategory>(p => p.ProductCategory)
@@ -58,10 +60,11 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     
     public EshopContext(DbContextOptions<EshopContext> options): base(options)
     {
-         this.Database.EnsureDeleted();
-        this.Database.EnsureCreated();
+        // this.Database.EnsureDeleted();
+        //  this.Database.EnsureCreated();
+        //
         //this.Database.Migrate(); <-- i need to fix migrations
-
-
+        
+         // this.InsertTestData();
     }
 }

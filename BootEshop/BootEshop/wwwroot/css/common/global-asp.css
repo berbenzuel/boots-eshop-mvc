@@ -1,0 +1,42 @@
+.nav-item-menu-home {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--color-dark);
+    outline: solid var(--color-dark) 0.3rem;
+    z-index: 1;
+    height: 6rem;
+    flex: 1;
+}
+.nav-item-menu-home:hover {
+    outline: solid var(--color-accent) 0.3rem;
+    z-index: 999;
+}
+
+.nav-item-menu-home:hover i {
+    animation: jump 0.5s running;
+}
+
+
+.nav-bar {
+    gap: 0.3rem;
+}
+
+
+
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

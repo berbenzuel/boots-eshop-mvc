@@ -5,9 +5,11 @@ using BootEshop.Models.Services;
 using BootEshop.Services;
 using Database;
 using Database.Entities;
+using DatabaseManager.Services.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using EshopContext = Database.EshopContext;
 
 namespace BootEshop
 {
@@ -33,12 +35,11 @@ namespace BootEshop
             });
             
             
+            
             builder.Services.Configure<AppConfig>(
                 builder.Configuration.GetSection("appConfig"));
-            
-            builder.Services.AddScoped<ProductService>();
-            builder.Services.AddScoped<OrderService>();
-            builder.Services.AddScoped<UserService>();
+
+            builder.Services.AddEshopServices();
             
             
             // builder.Services.AddIdentityCore<User>(options =>
@@ -52,12 +53,13 @@ namespace BootEshop
             var app = builder.Build();
             
             
-
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
             app.UseStaticFiles();
             app.UseRouting();
 

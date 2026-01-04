@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootEshop", "BootEshop\Boot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7A0B30DD-6CB3-444B-BA10-F89E608FD018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseManager", "DatabaseManager\DatabaseManager.csproj", "{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManager", "ServiceManager\ServiceManager.csproj", "{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootEshopConfiguration", "BootEshopConfiguration\BootEshopConfiguration.csproj", "{B478303A-960C-4502-8A66-8955B5C04EEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F390DA-A5F6-4E92-BE5F-A0D59D90F842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B478303A-960C-4502-8A66-8955B5C04EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B478303A-960C-4502-8A66-8955B5C04EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B478303A-960C-4502-8A66-8955B5C04EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B478303A-960C-4502-8A66-8955B5C04EEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

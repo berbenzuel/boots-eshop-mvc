@@ -10,21 +10,31 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BootEshop.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/var.css" />
-    <link rel="stylesheet" href="~/css/common.css" />
+    <link rel="stylesheet" href="~/css/common/common.css" />
+    <link rel="stylesheet" href="~/css/product.css" />
+    <link rel="stylesheet" href="~/css/common/global-asp.css" />
+    <link rel="stylesheet" href="~/css/common/separator.css" />
     @await RenderSectionAsync("Styles", required: false)
     <script src="https://kit.fontawesome.com/3db67ba0a9.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
 </head>
 <body class="background-color-base">
 <header>
-    <partial name="Partials/Header/_LoginBar"/>
-    <div class="px-main">
-        <div class="d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex gap-3 flex-column mb-5">
+        <partial name="Partials/Header/_LoginBar"/>
+        
+        <div class="px-main d-flex flex-row justify-content-between align-items-center">
             <img src="img/logo.png" alt="logo" class="logo">
             <partial name="Partials/Header/_ControlBar"/>
         </div>
-        <partial name="Partials/Header/_NavBar"/>    
+        <div class="px-main">
+            <partial name="Partials/Header/_NavBar"/>    
+        </div>
+        
     </div>
-    
+
 </header>
 
 <main role="main" >
@@ -41,6 +51,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

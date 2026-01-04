@@ -1,0 +1,23 @@
+.separator {
+    position: relative;
+    height: 80px;
+}
+
+.separator hr {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    border-width: 0.2rem;
+    border-color: var(--color-dark)
+}
+
+.separator img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    padding: 0.6rem;
+    background-color: var(--color-base);
+}

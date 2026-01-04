@@ -1,5 +1,5 @@
 ﻿@using BootEshop.ViewArgs
-@using BootEshop.ViewComponents
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -8,15 +8,11 @@
 {
     <link rel="stylesheet" href="css/features/product.css" />
     <link rel="stylesheet" href="css/features/home.css" />
-    
 }
 <div class="text-center d-flex flex-column  gap-5 ">
     <partial name="Partials/Home/_Carrousel"/>
-    @await Component.InvokeAsync("ProductsSelection", new ProductsSelectionArgs("foo", "bar", new CatalogFilter()
-        {
-            Count = 10,
-            Category = Category.RecommendedProduct
-        }
-        ));
+    <partial name="Partials/Home/_Categories"/>
+    <partial name="Partials/Common/_Separator"/>
+    @await Component.InvokeAsync("ProductsSelection", new ProductsSelectionArgs("NEJNOVĚJŠÍ KOUSKY", "V NAŠÍ NABÍDCE", new ProductFilterModelDto())));
     
 </div>

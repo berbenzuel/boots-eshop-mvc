@@ -1,0 +1,77 @@
+@using BootEshop.ViewArgs
+@model BootEshop.ViewModels.CatalogGridViewModel
+
+
+<div>
+    <div>
+        <div id="filters">
+            <div id="category-selectors">
+                @foreach(var item in Model.Categories)
+                {
+                    <div>
+                        <input type="radio" name="category-radio" class="category-radio" data-category-id="@item.Id" value="@item.Name">
+                        <span>@item.Name</span>
+                    </div>
+                }
+            </div>
+            <div id="size-selectors">
+                @foreach (var item in Model.Sizes)
+                {
+                    <input type="checkbox" class="size-checkbox" data-size-id="@item.Id" value="@item.Size">
+                    <span>@item.Size</span>
+                }
+            </div>
+            <div id="color-selectors">
+                @foreach (var item in Model.Colors)
+                {
+                    <input type="checkbox" class="color-checkbox" data-color-id="@item.Id" value="@item.Name">
+                    <span>@item.Name</span>
+                }
+            </div>
+            <div id="manufacturer-selectors">
+                @foreach (var item in Model.Manufacturers)
+                {
+                    <input type="checkbox" class="manufacturer-checkbox" data-manufacturer-id="@item.Id" value="@item.Name">
+                    <span>@item.Name</span>
+                }
+            </div>
+            
+            <div id="order-selectors">
+                <select id="sort-select">
+                    <option value="@nameof(ProductSort.Recommended)">Doporučené</option>
+
+                    <option value="@nameof(ProductSort.PriceAsc)">Cena: od nejnižší</option>
+                    <option value="@nameof(ProductSort.PriceDesc)">Cena: od nejvyšší</option>
+
+                    <option value="@nameof(ProductSort.Alphabetic)">Název: A–Z</option>
+                    <option value="@nameof(ProductSort.AlphabeticDesc)">Název: Z–A</option>
+
+                    <option value="@nameof(ProductSort.Newest)">Nejnovější</option>
+                    <option value="@nameof(ProductSort.NewestDesc)">Nejstarší</option>
+                </select>
+            </div>
+            
+            <div id="min-price-selector">
+                
+                <label>
+                    <input type="checkbox" id="useMinPrice" />
+                    Min price
+                </label>
+
+                <input type="number"
+                       id="minPrice"
+                       step="0.01"
+                       disabled />
+            </div>
+            
+        </div>
+        
+    </div>
+
+    
+    
+    <div class="grid">
+        @await Component.InvokeAsync("ProductGrid", Model.Products)
+    </div>
+
+</div>

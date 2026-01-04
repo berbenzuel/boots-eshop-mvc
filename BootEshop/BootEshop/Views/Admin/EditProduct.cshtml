@@ -1,0 +1,146 @@
+@model BootEshop.ViewModels.EditProductViewModel
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Upravit produkt";
+}
+
+@section Scripts
+{
+    <script src="~/js/admin/product.js"></script>
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/admin/product.css"/>
+}
+
+<h2 class="mb-4">Upravit produkt</h2>
+
+<form asp-action="EditProduct"
+      method="post"
+      enctype="multipart/form-data"
+      class="row g-3">
+
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Basic info -->
+    <div class="col-md-6">
+        <label asp-for="Name" class="form-label">Název</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label asp-for="StockPrice" class="form-label">Nákupní cena</label>
+        <input asp-for="StockPrice" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Price" class="form-label">Prodejní cena</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label asp-for="SalePrice" class="form-label">Akční cena</label>
+        <input asp-for="SalePrice" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <label asp-for="ShortDescription" class="form-label">Krátký popis</label>
+        <input asp-for="ShortDescription" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <label asp-for="LongDescription" class="form-label">Dlouhý popis</label>
+        <textarea asp-for="LongDescription" class="form-control" rows="4"></textarea>
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- Category / Manufacturer -->
+    <div class="col-md-6">
+        <label asp-for="CategoryId" class="form-label">Kategorie</label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select"></select>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ManufacturerId" class="form-label">Výrobce</label>
+        <select asp-for="ManufacturerId" asp-items="Model.Manufacturers" class="form-select"></select>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label d-block mb-2">Barva</label>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var color in Model.Colors)
+            {
+                var isChecked = Model.ProductColorIds.Contains(color.Id) ? "checked" : "";
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="ProductColorIds"
+                           value="@color.Id"
+                           id="color_@color.Id"
+                           @isChecked/>
+
+                    <label class="form-check-label" for="color_@color.Id" style="cursor:pointer;">
+                        @color.Name
+                        <span style="
+                        display:inline-block;
+                        width:24px;
+                        height:24px;
+                        border-radius:50%;
+                        border: 2px solid #ccc;
+                        background-color:@color.HexColor;
+                        vertical-align:middle;
+                        @(isChecked == "checked" ? "box-shadow:0 0 0 2px #007bff inset;" : "")
+                    "></span>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label d-block mb-2">Velikost</label>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var size in Model.Sizes)
+            {
+                var isChecked = Model.ProductSizeIds.Contains(size.Id) ? "checked" : "";
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="ProductSizeIds"
+                           value="@size.Id"
+                           id="size_@size.Id"
+                           @isChecked />
+                    <label class="form-check-label" for="size_@size.Id">
+                        @size.Size
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Images -->
+    <div class="col-12">
+        <label class="form-label">Obrázky produktu</label>
+        <input type="file"
+               id="imageInput"
+               name="Images"
+               class="form-control"
+               multiple
+               accept="image/*" />
+
+        <div class="form-text">
+            První obrázek je hlavní. Přetáhnutím změníte pořadí.
+        </div>
+
+        <div id="imageList" class="row mt-3 g-3"
+             data-existing='@Html.Raw(JsonSerializer.Serialize(Model.ExistingImages))'>
+        </div>
+
+        <!-- Hidden inputs for existing images -->
+        <div id="existingImagesInputs"></div>
+    </div>
+
+    <div class="col-12 mt-4">
+        <button type="submit" class="btn btn-primary">Uložit produkt</button>
+        <a asp-action="ProductOverview" class="btn btn-outline-secondary ms-2">Zrušit</a>
+    </div>
+</form>

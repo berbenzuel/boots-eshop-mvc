@@ -1,4 +1,5 @@
 using BootEshop.Models;
+using DatabaseManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -7,43 +8,42 @@ namespace BootEshop.Controllers;
 
 public class SourceController : Controller
 {
-    private SourceConfig _config;
-    private readonly IWebHostEnvironment _env;
+    private SourceService _sourceService;
     
-    public SourceController(IOptions<AppConfig> config, IWebHostEnvironment env)
+    
+    public SourceController( SourceService sourceService)
     {
-        _config = config.Value.Source;
-        _env = env;
+        _sourceService = sourceService;
     }
     
-    public IActionResult ProductImage(Guid id)
+    public IActionResult CatalogProductImage(Guid id)
     {
-        var path = Path.Combine(_env.ContentRootPath ,_config.ProductImage, $"{id}.png");
-        
-        if (!System.IO.File.Exists(path))
-             return NotFound();
-            
+        var path = _sourceService.GetProductMainImagePath(id);
+        return path is not null ? PhysicalFile(path, "image/webp") : NotFound(path);
+    }
+    
+
+    public IActionResult ProductImage(string filename)
+    {
+        var path = _sourceService.GetProductImagePath(filename);
         Response.Headers.CacheControl = "public,max-age=604800";
-        return PhysicalFile(path, "image/png");
+        return path is not null ? PhysicalFile(path, "image/webp") : NotFound(path);
     }
 
     public IActionResult CarrouselImage(int id)
     {
-        var path = Path.Combine(_env.ContentRootPath, _config.CarrouselImage, $"{id}");
-        if (!System.IO.File.Exists(path))
-            return NotFound();
-            
+        var path = _sourceService.GetCarouselImagePath(id);
         Response.Headers.CacheControl = "public,max-age=604800";
         return PhysicalFile(path, "image/png");
     }
 
-    public IActionResult CategoryImage(int id)
-    {
-        var path = Path.Combine(_env.ContentRootPath, _config.CategoryImage, $"{id}");
-        if (!System.IO.File.Exists(path))
-            return NotFound();
-            
-        Response.Headers.CacheControl = "public,max-age=604800";
-        return PhysicalFile(path, "image/png");
-    }
+    // public IActionResult CategoryImage(int id)
+    // {
+    //     var path = Path.Combine(_env.ContentRootPath, _config.CategoryImage, $"{id}");
+    //     if (!System.IO.File.Exists(path))
+    //         return NotFound();
+    //         
+    //     Response.Headers.CacheControl = "public,max-age=604800";
+    //     return PhysicalFile(path, "image/png");
+    // }
 }

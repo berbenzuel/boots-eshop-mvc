@@ -2,8 +2,11 @@
 @model BootEshop.ViewModels.ProductSelectionViewModel
 
 
-<div>
-    <h1 class="fw-light">@Model.Header</h1>
-    <h1 class="fw-bold">@Model.HeaderBold</h1>
+<div class="d-flex flex-column align-items-center gap-5">
+    <div class="d-flex flex-row gap-2">
+        <h1 class="fw-light color-accent">@Model.Header</h1>
+        <h1 class="fw-bold color-primary">@Model.HeaderBold</h1>    
+    </div>
+    
     @await Component.InvokeAsync("ProductGrid", Model.Products)
 </div>
