@@ -15,7 +15,7 @@ namespace BootEshop
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +34,18 @@ namespace BootEshop
                 o.UseMySQL(dbCfg.ConnectionString);
             });
             
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+                .AddEntityFrameworkStores<EshopContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
             
             
             builder.Services.Configure<AppConfig>(
@@ -42,14 +54,9 @@ namespace BootEshop
             builder.Services.AddEshopServices();
             
             
-            // builder.Services.AddIdentityCore<User>(options =>
-            //     {
-            //         options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
-            //     })
-            //     .AddRoles<IdentityRole>()                      
-            //     .AddEntityFrameworkStores<EshopContext>()
-            //     .AddSignInManager();
-
+            
+           
+  
             var app = builder.Build();
             
             
@@ -65,6 +72,48 @@ namespace BootEshop
 
             app.UseAuthorization();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider
+                    .GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+                if (!await roleManager.RoleExistsAsync("Admin"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole<Guid>("Admin"));
+                }
+
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole<Guid>("User"));
+                }
+                
+                var userManager = scope.ServiceProvider
+                    .GetRequiredService<UserManager<User>>();
+
+                var adminEmail = "admin@admin";
+                var adminPassword = "1234";
+
+                var admin = await userManager.FindByEmailAsync(adminEmail);
+
+                if (admin == null)
+                {
+                    admin = new User
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        EmailConfirmed = true
+                    };
+
+                    var result = await userManager.CreateAsync(admin, adminPassword);
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(admin, "Admin");
+                    }
+                }
+            }
+            
+            
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",

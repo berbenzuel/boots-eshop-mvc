@@ -21,6 +21,7 @@ public class EditProductViewModel
     
     public IEnumerable<IFormFile> Images { get; set; } = new List<IFormFile>();
     public IEnumerable<string> ExistingImages { get; set; } = new List<string>();
+    public IEnumerable<string> ImageOrder {get; set;} = new List<string>();
     public IEnumerable<SelectListItem> Categories { get; set; }  = new List<SelectListItem>();
     public IEnumerable<SelectListItem> Manufacturers { get; set; }  = new List<SelectListItem>();
     public IEnumerable<ProductColor> Colors { get; set; }   = new List<ProductColor>();

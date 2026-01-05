@@ -1,0 +1,70 @@
+@using Microsoft.AspNetCore.Identity
+@model CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Přidat nového uživatele";
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/admin/product.css"/>
+}
+
+<h2 class="mb-4">Přidat nového uživatele</h2>
+
+<form asp-action="CreateUser"
+      method="post"
+      class="row g-3">
+
+    <!-- Email -->
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Full Name -->
+    <div class="col-md-6">
+        <label asp-for="FullName" class="form-label">Celé jméno</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <!-- Password -->
+    <div class="col-md-6">
+        <label asp-for="Password" class="form-label">Heslo</label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="col-md-6">
+        <label asp-for="ConfirmPassword" class="form-label">Potvrzení hesla</label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <!-- Role Selection -->
+    <div class="col-md-6">
+        <label asp-for="Role" class="form-label">Role</label>
+        <select asp-for="Role" class="form-select">
+            <option value="">Vyberte roli</option>
+            @foreach (var role in ViewData["Roles"] as IEnumerable<IdentityRole<Guid>>)
+            {
+                <option value="@role.Name">@role.Name</option>
+            }
+        </select>
+        <span asp-validation-for="Role" class="text-danger"></span>
+    </div>
+
+    <!-- Submit buttons -->
+    <div class="col-12 mt-4">
+        <button type="submit" class="btn btn-primary">Vytvořit uživatele</button>
+        <a asp-action="UserList" class="btn btn-outline-secondary ms-2">Zrušit</a>
+    </div>
+</form>

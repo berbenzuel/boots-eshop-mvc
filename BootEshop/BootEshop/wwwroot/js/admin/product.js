@@ -1,165 +1,97 @@
-(() => {
-    const input = document.getElementById("imageInput");
-    const list = document.getElementById("imageList");
-    const existingInputsContainer =
-        document.getElementById("existingImagesInputs");
+const IMAGE_BASE_URL = "/Source/ProductImage?filename=";
 
-    if (!list) return;
+const input = document.getElementById("imageInput");
+const list = document.getElementById("imageList");
+const orderInputs = document.getElementById("imageOrderInputs");
 
-    // Unified state
-    let items = [];
-    // item:
-    // { type: "existing", id, src }
-    // { type: "new", file, src }
+// Single array of items: { key, type: "existing"|"new", file? }
+let items = (JSON.parse(list.dataset.existing || "[]"))
+    .map(f => ({ key: f, type: "existing" }));
 
-    /* -----------------------------------------
-       INIT
-    ----------------------------------------- */
+let newCounter = 0; // counter for NEW:i keys
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        const existing = JSON.parse(list.dataset.existing || "[]");
+render();
 
-        if (existing.length > 0) {
-            await preloadExisting(existing);
-        }
+input.addEventListener("change", () => {
+    Array.from(input.files).forEach(f => {
+        items.push({ key: `NEW:${newCounter++}`, type: "new", file: f });
+    });
+    render();
+});
+
+function render() {
+    list.innerHTML = "";
+    orderInputs.innerHTML = "";
+
+    items.forEach(item => {
+        const col = document.createElement("div");
+        col.className = "col-6 col-md-3";
+
+        const card = document.createElement("div");
+        card.className = "border p-2 position-relative";
+        card.draggable = true;
+        card.dataset.key = item.key;
+
+        const img = document.createElement("img");
+        img.className = "img-fluid";
+        img.src = item.type === "existing"
+            ? IMAGE_BASE_URL + item.key
+            : URL.createObjectURL(item.file);
+
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "btn btn-danger btn-sm position-absolute top-0 end-0";
+        del.textContent = "✕";
+        del.onclick = () => remove(item.key);
+
+        card.appendChild(img);
+        card.appendChild(del);
+        setupDrag(card);
+
+        col.appendChild(card);
+        list.appendChild(col);
+
+        const hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = "ImageOrder";
+        hidden.value = item.key;
+        orderInputs.appendChild(hidden);
+    });
+
+    syncFileInput();
+}
+
+function remove(key) {
+    items = items.filter(x => x.key !== key);
+    render();
+}
+
+function setupDrag(card) {
+    card.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("key", card.dataset.key);
+    });
+
+    card.addEventListener("dragover", e => e.preventDefault());
+
+    card.addEventListener("drop", e => {
+        e.preventDefault();
+        const fromKey = e.dataTransfer.getData("key");
+        const toKey = card.dataset.key;
+
+        const fromIndex = items.findIndex(x => x.key === fromKey);
+        const toIndex = items.findIndex(x => x.key === toKey);
+
+        if (fromIndex === -1 || toIndex === -1) return;
+
+        const [moved] = items.splice(fromIndex, 1);
+        items.splice(toIndex, 0, moved);
 
         render();
     });
+}
 
-    if (input) {
-        input.addEventListener("change", () => {
-            for (const file of input.files) {
-                items.push({
-                    type: "new",
-                    file,
-                    src: URL.createObjectURL(file)
-                });
-            }
-            render();
-        });
-    }
-
-    /* -----------------------------------------
-       PRELOAD EXISTING (EDIT PAGE ONLY)
-    ----------------------------------------- */
-
-    async function preloadExisting(urls) {
-        for (const url of urls) {
-            try {
-                const res = await fetch(url);
-                if (!res.ok) continue;
-
-                const blob = await res.blob();
-                items.push({
-                    type: "existing",
-                    id: url,
-                    src: URL.createObjectURL(blob)
-                });
-            } catch {
-                /* ignore failed image */
-            }
-        }
-    }
-
-    /* -----------------------------------------
-       RENDER (SYNC, ORDER SAFE)
-    ----------------------------------------- */
-
-    function render() {
-        list.innerHTML = "";
-        existingInputsContainer?.replaceChildren();
-
-        items.forEach((item, index) => {
-            const col = document.createElement("div");
-            col.className = "col-6 col-md-3";
-
-            const card = document.createElement("div");
-            card.className = "image-card";
-            card.draggable = true;
-            card.dataset.index = index;
-
-            if (index === 0) {
-                card.classList.add("main");
-                const badge = document.createElement("div");
-                badge.className = "badge-main";
-                badge.textContent = "Hlavní";
-                card.appendChild(badge);
-            }
-
-            const img = document.createElement("img");
-            img.src = item.src;
-
-            const del = document.createElement("button");
-            del.type = "button";
-            del.className = "btn btn-sm btn-danger btn-delete";
-            del.textContent = "✕";
-            del.onclick = () => remove(index);
-
-            card.append(img, del);
-            setupDrag(card);
-
-            col.appendChild(card);
-            list.appendChild(col);
-
-            if (item.type === "existing" && existingInputsContainer) {
-                const hidden = document.createElement("input");
-                hidden.type = "hidden";
-                hidden.name = "ExistingImages";
-                hidden.value = item.id;
-                existingInputsContainer.appendChild(hidden);
-            }
-        });
-
-        syncInput();
-    }
-
-    /* -----------------------------------------
-       DRAG & DROP
-    ----------------------------------------- */
-
-    function setupDrag(card) {
-        card.addEventListener("dragstart", e =>
-            e.dataTransfer.setData("text/plain", card.dataset.index)
-        );
-
-        card.addEventListener("dragover", e => e.preventDefault());
-
-        card.addEventListener("drop", e => {
-            e.preventDefault();
-
-            const from = +e.dataTransfer.getData("text/plain");
-            const to = +card.dataset.index;
-
-            items.splice(to, 0, items.splice(from, 1)[0]);
-            render();
-        });
-    }
-
-    /* -----------------------------------------
-       REMOVE
-    ----------------------------------------- */
-
-    function remove(index) {
-        const item = items[index];
-        if (item?.src?.startsWith("blob:")) {
-            URL.revokeObjectURL(item.src);
-        }
-        items.splice(index, 1);
-        render();
-    }
-
-    /* -----------------------------------------
-       SYNC FILE INPUT
-    ----------------------------------------- */
-
-    function syncInput() {
-        if (!input) return;
-
-        const dt = new DataTransfer();
-        items
-            .filter(i => i.type === "new")
-            .forEach(i => dt.items.add(i.file));
-
-        input.files = dt.files;
-    }
-})();
+function syncFileInput() {
+    const dt = new DataTransfer();
+    items.filter(x => x.type === "new").forEach(x => dt.items.add(x.file));
+    input.files = dt.files;
+}

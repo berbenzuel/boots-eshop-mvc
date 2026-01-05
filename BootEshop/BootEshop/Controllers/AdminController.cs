@@ -4,8 +4,10 @@ using BootEshop.ViewModels;
 using Database;
 using Database.Entities;
 using DatabaseManager.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace BootEshop.Controllers;
@@ -18,8 +20,11 @@ public class AdminController : Controller
     private readonly SizeService _sizeService;
     private readonly CategoryService _categoryService;
     private readonly SourceService _sourceService;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-    public AdminController(ProductService productService,  ColorService colorService, ManufacturerService manufacturerService, SizeService sizeService, CategoryService categoryService, SourceService sourceService )
+
+    public AdminController(ProductService productService,  ColorService colorService, ManufacturerService manufacturerService, SizeService sizeService, CategoryService categoryService, SourceService sourceService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager )
     {
         _productService = productService;
         _colorService = colorService;
@@ -27,6 +32,9 @@ public class AdminController : Controller
         _sizeService = sizeService;
         _categoryService = categoryService;
         _sourceService = sourceService;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        
     }
     
     // GET
@@ -79,6 +87,7 @@ public class AdminController : Controller
         return View(model);
     }
 
+    [OutputCache(NoStore = true, Duration = 0)]
     public IActionResult EditProduct(Guid productId)
     {
         var product = _productService.GetEntities()
@@ -101,7 +110,7 @@ public class AdminController : Controller
             ProductColorIds = product.ProductColors.Select(c => c.Id).ToList(),
             ProductSizeIds = product.ProductSizes.Select(c => c.Id).ToList(),
             ExistingImages = _sourceService.GetProductImagePaths(product.Id)
-                .Select(f => Url.Action("ProductImage", "Source", new { filename = Path.GetFileName(f)}))
+                .Select(f => Path.GetFileName(f))
                 .ToList(),
             
             Categories = _categoryService.GetEntities()
@@ -156,6 +165,31 @@ public class AdminController : Controller
     
         
         _productService.UpdateEntity(product);
+        var files = new List<IFormFile>();
+        foreach (var item in model.ImageOrder)
+        {
+            if (item.StartsWith("NEW:"))
+            {
+                var index = int.Parse(item.Replace("NEW:", ""));
+                var file = model.Images.ElementAt(index);
+
+                files.Add(file);
+            }
+            else
+            {
+                var fileStream = new FileStream(_sourceService.GetProductImagePath(item), FileMode.Open, FileAccess.Read);
+                var formFile = new FormFile(fileStream, 0, fileStream.Length, "file", Path.GetFileName(item))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/webp"
+                };
+                files.Add(formFile);
+            }
+        }
+        _sourceService.UploadProductImages(product.Id, files);
+
+        return RedirectToAction("ProductOverview");
+        return RedirectToAction("ProductOverview");
         _sourceService.UploadProductImages(product.Id, model.Images);
 
         TempData["SuccessMessage"] = "Maminka je na tebe pyšná ❤️";
@@ -202,7 +236,49 @@ public class AdminController : Controller
         return RedirectToAction(nameof(ProductOverview));
     }
     
+    [HttpGet]
+    public IActionResult CreateUser()
+    {
+        ViewData["Roles"] = _roleManager.Roles; // For a dropdown
+        return View();
+    }
 
+    [HttpPost]
+  
+    public async Task<IActionResult> CreateUser(CreateUserViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewData["Roles"] = _roleManager.Roles;
+            return View(model);
+        }
+
+        var user = new User
+        {
+            UserName = model.Email,
+            Email = model.Email,
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            ViewData["Roles"] = _roleManager.Roles;
+            return View(model);
+        }
+
+        if (!string.IsNullOrEmpty(model.Role))
+        {
+            if (!await _roleManager.RoleExistsAsync(model.Role))
+                await _roleManager.CreateAsync(new IdentityRole<Guid> { Name = model.Role });
+
+            await _userManager.AddToRoleAsync(user, model.Role);
+        }
+
+        return RedirectToAction("UserList"); // Or wherever you want
+    }
 
 
     
