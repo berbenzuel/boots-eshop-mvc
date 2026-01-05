@@ -41,9 +41,6 @@ public class SourceService(IOptions<AppConfig> config, IWebHostEnvironment env)
 
         try
         {
-            Directory.EnumerateFiles(_config.ProductImage, $"{productId}*", SearchOption.AllDirectories)
-                .ToList().ForEach(File.Delete);
-            
             int count = 1;
             foreach (var image in files)
             {

@@ -52,11 +52,9 @@
                 const blob = await res.blob();
                 items.push({
                     type: "existing",
-                    id: url.id,
+                    id: url,
                     src: URL.createObjectURL(blob)
                 });
-                
-                
             } catch {
                 /* ignore failed image */
             }
@@ -109,11 +107,8 @@
                 hidden.name = "ExistingImages";
                 hidden.value = item.id;
                 existingInputsContainer.appendChild(hidden);
-                window.data-existing 
             }
         });
-        
-        
 
         syncInput();
     }
@@ -166,7 +161,5 @@
             .forEach(i => dt.items.add(i.file));
 
         input.files = dt.files;
-        
-        
     }
 })();
