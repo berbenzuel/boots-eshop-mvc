@@ -85,6 +85,16 @@ public class AdminController : Controller
             .Include(x => x.ProductColors)
             .Include(x => x.ProductSizes)
             .First(p => p.Id == productId);
+        var images = _sourceService.GetProductImagePaths(product.Id);
+        var cards = new List<ImageCardViewModel>();
+        for (int i = 0; i < images.Count(); i++)
+        {
+            cards.Add(new ImageCardViewModel()
+            {
+                Index = i,
+                Url = Url.Action("ProductImage", "Source", new { filename = Path.GetFileName(images.ElementAt(i))})
+            });
+        }
         
  
         var model = new EditProductViewModel()
@@ -100,6 +110,7 @@ public class AdminController : Controller
             ManufacturerId = product.ManufacturerId,
             ProductColorIds = product.ProductColors.Select(c => c.Id).ToList(),
             ProductSizeIds = product.ProductSizes.Select(c => c.Id).ToList(),
+            ImageCards = cards,
             ExistingImages = _sourceService.GetProductImagePaths(product.Id)
                 .Select(f => Url.Action("ProductImage", "Source", new { filename = Path.GetFileName(f)}))
                 .ToList(),
@@ -156,6 +167,7 @@ public class AdminController : Controller
     
         
         _productService.UpdateEntity(product);
+  
         _sourceService.UploadProductImages(product.Id, model.Images);
 
         TempData["SuccessMessage"] = "Maminka je na tebe pyšná ❤️";

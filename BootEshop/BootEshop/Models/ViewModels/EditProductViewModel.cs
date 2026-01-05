@@ -19,6 +19,7 @@ public class EditProductViewModel
     public IEnumerable<Guid> ProductColorIds { get; set; } = new List<Guid>();
     public IEnumerable<Guid> ProductSizeIds { get; set; } = new List<Guid>();
     
+    public IEnumerable<ImageCardViewModel> ImageCards { get; set; } = new List<ImageCardViewModel>();
     public IEnumerable<IFormFile> Images { get; set; } = new List<IFormFile>();
     public IEnumerable<string> ExistingImages { get; set; } = new List<string>();
     public IEnumerable<SelectListItem> Categories { get; set; }  = new List<SelectListItem>();
