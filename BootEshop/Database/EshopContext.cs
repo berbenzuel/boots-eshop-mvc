@@ -27,13 +27,6 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<Product>()
             .HasKey(p => p.Id);
         modelBuilder.Entity<Product>()
-            .HasMany<ProductColor>(p => p.ProductColors)
-            .WithMany(pc => pc.Products)
-            ;
-        modelBuilder.Entity<Product>()
-            .HasMany<ProductSize>(p => p.ProductSizes)
-            .WithMany(ps => ps.Products);
-        modelBuilder.Entity<Product>()
             .HasOne<ProductCategory>(p => p.ProductCategory)
             .WithMany(pc => pc.Products);
         modelBuilder.Entity<Product>()
@@ -55,7 +48,12 @@ public class EshopContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<OrderStock>()
             .HasOne<Order>(o => o.Order)
             .WithMany(o => o.OrderStocks);
-        
+
+
+        modelBuilder.Entity<Stock>()
+            .HasOne<ProductColor>(p => p.ProductColor)
+            .WithMany(c => c.Stocks);
+
     }
     
     public EshopContext(DbContextOptions<EshopContext> options): base(options)

@@ -22,9 +22,9 @@ public class AdminController : Controller
     private readonly SourceService _sourceService;
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly StockService _stockService;
 
-
-    public AdminController(ProductService productService,  ColorService colorService, ManufacturerService manufacturerService, SizeService sizeService, CategoryService categoryService, SourceService sourceService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager )
+    public AdminController(ProductService productService, StockService stockService, ColorService colorService, ManufacturerService manufacturerService, SizeService sizeService, CategoryService categoryService, SourceService sourceService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager )
     {
         _productService = productService;
         _colorService = colorService;
@@ -34,7 +34,7 @@ public class AdminController : Controller
         _sourceService = sourceService;
         _userManager = userManager;
         _roleManager = roleManager;
-        
+        _stockService = stockService;
     }
     
     // GET
@@ -91,8 +91,6 @@ public class AdminController : Controller
     public IActionResult EditProduct(Guid productId)
     {
         var product = _productService.GetEntities()
-            .Include(x => x.ProductColors)
-            .Include(x => x.ProductSizes)
             .First(p => p.Id == productId);
         
  
@@ -277,9 +275,9 @@ public class AdminController : Controller
             await _userManager.AddToRoleAsync(user, model.Role);
         }
 
-        return RedirectToAction("UserList"); // Or wherever you want
+        return RedirectToAction("Index"); // Or wherever you want
     }
 
-
+    
     
 }

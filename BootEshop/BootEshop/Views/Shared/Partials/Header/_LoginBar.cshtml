@@ -10,9 +10,20 @@ color-base background-color-primary fs-5">
         <a href="mailto:info@nejlepsiboty.cz" class="text-decoration-none color-base">
             info@nejlepsiboty.cz
         </a>
+        
     </div>
-    <a asp-action="Login" asp-controller="Account" class="text-decoration-none color-base">
-        <i class="fa-solid fa-user color-base"></i>
-        <span>Přihlásit se</span>
-    </a>
+    @if (this.User.IsInRole("Admin"))
+    {
+        <a asp-controller="Account" asp-action="Logout" class="text-decoration-none color-base">
+            <span>Odhlásit se</span>
+        </a>    
+    }
+    else
+    {
+        <a asp-action="Login" asp-controller="Account" class="text-decoration-none color-base">
+            <i class="fa-solid fa-user color-base"></i>
+            <span>Přihlásit se</span>
+        </a>
+    }
+    
 </div>

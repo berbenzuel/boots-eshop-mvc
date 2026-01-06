@@ -6,5 +6,5 @@ public class ProductColor
     public string Name { get; set; }
     public string HexColor { get; set; }
     
-    public ICollection<Product> Products { get; set; }
+    public ICollection<Stock> Stocks { get; set; }
 }

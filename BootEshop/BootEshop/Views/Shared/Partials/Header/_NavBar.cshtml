@@ -7,10 +7,15 @@
         Dívčí
         <i class="fa-solid fa-child-dress"></i>
     </a>
-    <a class="nav-item-menu-home" asp-controller="Admin" asp-action="Index">Doplňky</a>
-    <a class="nav-item-menu-home" asp-controller="Admin" asp-action="Index">Ostatní</a>
+    <a class="nav-item-menu-home" asp-controller="Home" asp-action="Index">Doplňky</a>
+    <a class="nav-item-menu-home" asp-controller="Home" asp-action="Index">Ostatní</a>
     <a class="nav-item-menu-home" asp-controller="Home" asp-action="Index">Kontakt</a>
-    <a asp-controller="Admin" asp-action="Index" class="nav-item-menu-home" >Adminek</a>    
+    
+    @if (this.User.IsInRole("Admin"))
+    {
+        <a asp-controller="Admin" asp-action="Index" class="nav-item-menu-home" >Adminek</a>    
+    }
+        
     
     
     

@@ -8,11 +8,11 @@ public class Stock
     public int Quantity { get; set; }
     
     public Guid ProductId { get; set; }
-    public Guid BootColorId {get; set;}
-    public Guid BootSizeId {get; set;}
+    public Guid ProductColorId {get; set;}
+    public Guid ProductSizeId {get; set;}
     
     public Product Product { get; set; }
     public ProductColor ProductColor { get; set; }
-    public ProductSize Size { get; set; }
+    public ProductSize ProductSize { get; set; }
     public ICollection<OrderStock> OrderStocks { get; set; }
 }

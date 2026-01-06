@@ -15,8 +15,6 @@ public class Product
     public Guid ManufacturerId { get; set; }
     
     public ProductCategory ProductCategory { get; set; }
-    public ICollection<ProductColor> ProductColors { get; set; }
-    public ICollection<ProductSize> ProductSizes { get; set; }
     public Manufacturer Manufacturer { get; set; }
     
     
