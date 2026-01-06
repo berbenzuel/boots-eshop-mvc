@@ -1,5 +1,6 @@
 @model BootEshop.ViewModels.EditProductViewModel
 @using System.Text.Json
+@using Mysqlx.Resultset
 
 @{
     ViewData["Title"] = "Upravit produkt";
@@ -64,58 +65,7 @@
         <select asp-for="ManufacturerId" asp-items="Model.Manufacturers" class="form-select"></select>
     </div>
     
-    <div class="col-md-6">
-        <label class="form-label d-block mb-2">Barva</label>
-        <div class="d-flex flex-wrap gap-2">
-            @foreach (var color in Model.Colors)
-            {
-                var isChecked = Model.ProductColorIds.Contains(color.Id) ? "checked" : "";
-                <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="ProductColorIds"
-                           value="@color.Id"
-                           id="color_@color.Id"
-                           @isChecked/>
-
-                    <label class="form-check-label" for="color_@color.Id" style="cursor:pointer;">
-                        @color.Name
-                        <span style="
-                        display:inline-block;
-                        width:24px;
-                        height:24px;
-                        border-radius:50%;
-                        border: 2px solid #ccc;
-                        background-color:@color.HexColor;
-                        vertical-align:middle;
-                        @(isChecked == "checked" ? "box-shadow:0 0 0 2px #007bff inset;" : "")
-                    "></span>
-                    </label>
-                </div>
-            }
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label d-block mb-2">Velikost</label>
-        <div class="d-flex flex-wrap gap-2">
-            @foreach (var size in Model.Sizes)
-            {
-                var isChecked = Model.ProductSizeIds.Contains(size.Id) ? "checked" : "";
-                <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="ProductSizeIds"
-                           value="@size.Id"
-                           id="size_@size.Id"
-                           @isChecked />
-                    <label class="form-check-label" for="size_@size.Id">
-                        @size.Size
-                    </label>
-                </div>
-            }
-        </div>
-    </div>
+    
 
     <!-- Images -->
     <div class="col-12">
@@ -138,6 +88,59 @@
         <!-- Hidden inputs for existing images -->
         <div id="existingImagesInputs"></div>
     </div>
+    
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Color</th>
+            <th>Size</th>
+            <th>Qty</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <input type="hidden" asp-for="Model.Rows[@i].Id" />
+
+                <td>
+                    <select asp-for="Model.Rows[@i].ProductColorId"
+                            asp-items="Model.Colors"
+                            class="form-select">
+                    </select>
+                </td>
+
+                <td>
+                    <select asp-for="Model.Rows[@i].ProductSizeId"
+                            asp-items="Model.Sizes"
+                            class="form-select">
+                    </select>
+                </td>
+
+                <td>
+                    <input asp-for="Model.Rows[@i].Quantity"
+                           type="number"
+                           min="0"
+                           class="form-control" />
+                </td>
+
+                <td class="text-center">
+                    <input asp-for="Model.Rows[@i].Delete" />
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" name="intent" value="add" class="btn btn-secondary">
+        ➕ Add row
+    </button>
+
+    <button type="submit" name="intent" value="save" class="btn btn-primary">
+        💾 Save
+    </button>
 
     <div class="col-12 mt-4">
         <button type="submit" class="btn btn-primary">Uložit produkt</button>

@@ -13,28 +13,30 @@ public class ProductService(EshopContext dbContext) : ContextService<Product>(db
      
      public IQueryable<Product> GetProducts(ProductFilterModelDto filterModel)
      {
-
-         var query = GetEntities();
+     
+         var query = GetEntities()
+             .Include(e => e.Stocks)
+             .AsQueryable();
              
          if (filterModel.CategoryId is not null)
              query = query.Where(p => p.ProductCategoryId == filterModel.CategoryId);
-
+     
          if (filterModel.SizeIds.Any())
              query = query
-                 .Where(p => p.ProductSizes.Any(ps => filterModel.SizeIds.Contains(ps.Id)));
+                 .Where(p => p.Stocks.Select(s=> s.ProductSizeId).Any(ps => filterModel.SizeIds.Contains(ps)));
         if(filterModel.ManufacturerIds.Any())
             query = query
              .Where(p => filterModel.ManufacturerIds.Contains(p.ManufacturerId));
         if (filterModel.ColorIds.Any())
             query = query
-                .Where(p => p.ProductColors.Any(ps => filterModel.ColorIds.Contains(ps.Id)));
+                .Where(p => p.Stocks.Select(s=> s.ProductColorId).Any(ps => filterModel.ColorIds.Contains(ps)));
         if(filterModel.MaxPrice is double maxPrice)
             query = query
              .Where(p => p.Price <= maxPrice || p.SalePrice >= maxPrice);
         if(filterModel.MinPrice is double minPrice)
             query = query
              .Where(p => p.Price >= minPrice || p.SalePrice >= minPrice);
-
+     
          query = ((ProductSort)filterModel.SortEnum) switch
          {
              ProductSort.Recommended => query, //fix with some statistic ?

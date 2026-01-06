@@ -1,4 +1,6 @@
-﻿namespace BootEshop.ViewModels;
+﻿using Database.Entities;
+
+namespace BootEshop.ViewModels;
 
 public class ProductOverviewViewModel
 {

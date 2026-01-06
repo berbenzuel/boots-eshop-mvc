@@ -16,6 +16,7 @@ public class Product
     
     public ProductCategory ProductCategory { get; set; }
     public Manufacturer Manufacturer { get; set; }
+    public ICollection<Stock> Stocks { get; set; } = new List<Stock>(); 
     
     
 }

@@ -92,7 +92,8 @@ public class AdminController : Controller
     {
         var product = _productService.GetEntities()
             .First(p => p.Id == productId);
-        
+        var stocks = _stockService.GetEntities()
+            .Where(s => s.ProductId == productId);
  
         var model = new EditProductViewModel()
         {
@@ -105,9 +106,8 @@ public class AdminController : Controller
             SalePrice = product.SalePrice,
             CategoryId = product.ProductCategoryId,
             ManufacturerId = product.ManufacturerId,
-            ProductColorIds = product.ProductColors.Select(c => c.Id).ToList(),
-            ProductSizeIds = product.ProductSizes.Select(c => c.Id).ToList(),
-            ExistingImages = _sourceService.GetProductImagePaths(product.Id)
+            Stocks = stocks,
+            ExistingImages = _sourceService.GetProductImagePaths(productId)
                 .Select(f => Path.GetFileName(f))
                 .ToList(),
             
@@ -137,14 +137,13 @@ public class AdminController : Controller
     [HttpPost]
     public IActionResult EditProduct(EditProductViewModel model)
     {
-        var product = _productService.GetEntities()
-            .Include(p => p.ProductColors)
-            .Include(p => p.ProductSizes)
-            .Include(p => p.Manufacturer)
-            .Include(p => p.ProductCategory)
-            .First(p => p.Id == model.Id);
+        var stock = _stockService.GetEntities()
+            .Include(p => p.Product)
+            .Include(p => p.ProductColor)
+            .Include(p => p.ProductSize)
+            .Where(p => p.ProductId == model.Id);
 
-
+        var product =  _productService.GetEntity(stock.ProductId);
 
 
 
@@ -158,11 +157,16 @@ public class AdminController : Controller
 
         product.ProductCategory = _categoryService.GetEntity(model.CategoryId);
         product.Manufacturer = _manufacturerService.GetEntity(model.ManufacturerId);
-        product.ProductSizes = _sizeService.GetEntities().Where(s => model.ProductSizeIds.Contains(s.Id)).ToList();
-        product.ProductColors = _colorService.GetEntities().Where(s => model.ProductColorIds.Contains(s.Id)).ToList();
+
+        foreach (var color in model.ProductColorIds)
+        {
+            
+        }
+        productSize = _sizeService.GetEntities().Where(s => model.ProductSizeIds.Contains(s.Id)).ToList();
+        productColor = _colorService.GetEntities().Where(s => model.ProductColorIds.Contains(s.Id)).ToList();
     
         
-        _productService.UpdateEntity(product);
+        _productService.UpdateEntity(stock.Product);
         var files = new List<IFormFile>();
         foreach (var item in model.ImageOrder)
         {
@@ -184,11 +188,11 @@ public class AdminController : Controller
                 files.Add(formFile);
             }
         }
-        _sourceService.UploadProductImages(product.Id, files);
+        _sourceService.UploadProductImages(stock.Product.Id, files);
 
         return RedirectToAction("ProductOverview");
         return RedirectToAction("ProductOverview");
-        _sourceService.UploadProductImages(product.Id, model.Images);
+        _sourceService.UploadProductImages(stock.Product.Id, model.Images);
 
         TempData["SuccessMessage"] = "Maminka je na tebe pyšná ❤️";
         return RedirectToAction(nameof(ProductOverview));

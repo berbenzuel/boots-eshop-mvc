@@ -61,8 +61,6 @@ public static class TestData
         {
             Created = DateTime.Now,
             ProductCategory = db.ProductCategory.First(),
-            ProductColors = [db.ProductColor.First()],
-            ProductSizes = [db.ProductSize.First()],
             Manufacturer = db.Manufacturer.First(),
             
             Name = "botickyyy",
@@ -78,8 +76,6 @@ public static class TestData
         {
             Created = DateTime.Now,
             ProductCategory = db.ProductCategory.Order().Last(),
-            ProductColors = [db.ProductColor.Order().Last()],
-            ProductSizes = [db.ProductSize.Order().Last()],
             Manufacturer = db.Manufacturer.Order().Last(),
             Name = "bomboklad",
             Price = 100,
@@ -88,6 +84,13 @@ public static class TestData
             
             LongDescription = "foobar baz unga bunga",
             ShortDescription = "foobarbaz",
+        });
+
+        db.Stock.Add(new Stock()
+        {
+            Product = db.Product.First(),
+            ProductColor = db.ProductColor.First(),
+            ProductSize = db.ProductSize.First(),
         });
 
         db.SaveChanges();
