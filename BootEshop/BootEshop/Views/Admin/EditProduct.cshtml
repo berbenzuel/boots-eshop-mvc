@@ -8,7 +8,20 @@
 
 @section Scripts
 {
-    <script src="~/js/admin/product.js"></script>
+    <script>const colorOptions = `
+@foreach (var c in Model.Colors)
+{
+    <option value="@c.Value">@c.Text</option>
+}
+`;
+
+const sizeOptions = `
+@foreach (var s in Model.Sizes)
+{
+    <option value="@s.Value">@s.Text</option>
+}
+`;</script>
+    <script src="~/js/admin/product.js" defer="defer"></script>
 }
 @section Styles
 {
@@ -99,45 +112,63 @@
             <th>Delete</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="stockRows">
         @for (int i = 0; i < Model.Rows.Count; i++)
         {
             <tr>
-                <input type="hidden" asp-for="Model.Rows[@i].Id" />
+                <input type="hidden" name="Rows[@i].Id" value="@Model.Rows[i].Id" />
 
                 <td>
-                    <select asp-for="Model.Rows[@i].ProductColorId"
-                            asp-items="Model.Colors"
+                    <select name="Rows[@i].ProductColorId"
                             class="form-select">
+                        @foreach (var c in Model.Colors)
+                        {
+                            <option value="@c.Value"
+                                    selected="@(c.Value == Model.Rows[i].ProductColorId.ToString())">
+                                @c.Text
+                            </option>
+                        }
                     </select>
                 </td>
 
                 <td>
-                    <select asp-for="Model.Rows[@i].ProductSizeId"
-                            asp-items="Model.Sizes"
+                    <select name="Rows[@i].ProductSizeId"
                             class="form-select">
+                        @foreach (var s in Model.Sizes)
+                        {
+                            <option value="@s.Value"
+                                    selected="@(s.Value == Model.Rows[i].ProductSizeId.ToString())">
+                                @s.Text
+                            </option>
+                        }
                     </select>
                 </td>
 
                 <td>
-                    <input asp-for="Model.Rows[@i].Quantity"
+                    <input name="Rows[@i].Quantity"
                            type="number"
                            min="0"
+                           value="@Model.Rows[i].Quantity"
                            class="form-control" />
                 </td>
 
                 <td class="text-center">
-                    <input asp-for="Model.Rows[@i].Delete" />
+                    <button type="button"
+                            class="btn btn-danger"
+                            onclick="removeRow(this)">
+                        Delete
+                    </button>
                 </td>
             </tr>
         }
         </tbody>
     </table>
 
-    <button type="submit" name="intent" value="add" class="btn btn-secondary">
-        ➕ Add row
+    <button type="button"
+            class="btn btn-secondary"
+            onclick="addRow()">
+        Add row
     </button>
-
     <button type="submit" name="intent" value="save" class="btn btn-primary">
         💾 Save
     </button>

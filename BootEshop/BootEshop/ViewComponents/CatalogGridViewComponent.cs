@@ -27,9 +27,9 @@ public class CatalogGridViewComponent : ViewComponent
         var query = _productService.GetProducts(filter);
         
         
-        var sizes = query.SelectMany(p => p.ProductSizes).Distinct();
+        var sizes = query.SelectMany(p => p.Stocks.Select(s => s.ProductSize)).Distinct().ToList();
         var manufacturers  = query.Select(p => p.Manufacturer).Distinct().ToList();
-        var colors = query.SelectMany(p => p.ProductColors).Distinct().ToList();
+        var colors = query.SelectMany(p => p.Stocks.Select(s => s.ProductColor)).Distinct().ToList();
         var products = query.ToList();
         
         var viewModel = new CatalogGridViewModel(filter, manufacturers, categories, sizes, colors, products);

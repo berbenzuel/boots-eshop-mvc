@@ -23,7 +23,7 @@ public class AddProductViewModel
     public IEnumerable<IFormFile> Images { get; set; } = new List<IFormFile>();
     public IEnumerable<SelectListItem> Categories { get; set; }  = new List<SelectListItem>();
     public IEnumerable<SelectListItem> Manufacturers { get; set; }  = new List<SelectListItem>();
-    public IEnumerable<ProductColor> Colors { get; set; }   = new List<ProductColor>();
-    public IEnumerable<ProductSize> Sizes { get; set; }   = new List<ProductSize>();
+    public IEnumerable<ProductColor> ProductColors { get; set; }   = new List<ProductColor>();
+    public IEnumerable<ProductSize> ProductSizes { get; set; }   = new List<ProductSize>();
     
 }

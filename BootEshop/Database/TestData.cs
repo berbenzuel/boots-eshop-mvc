@@ -85,6 +85,7 @@ public static class TestData
             LongDescription = "foobar baz unga bunga",
             ShortDescription = "foobarbaz",
         });
+        db.SaveChanges();
 
         db.Stock.Add(new Stock()
         {

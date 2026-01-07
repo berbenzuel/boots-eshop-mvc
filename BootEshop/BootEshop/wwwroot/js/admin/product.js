@@ -95,3 +95,50 @@ function syncFileInput() {
     items.filter(x => x.type === "new").forEach(x => dt.items.add(x.file));
     input.files = dt.files;
 }
+
+
+let rowIndex = document.querySelectorAll('#stockRows tr').length;
+
+function addRow() {
+    const tbody = document.getElementById('stockRows');
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <input type="hidden" name="Rows[${rowIndex}].Id" value="" />
+
+        <td>
+            <select name="Rows[${rowIndex}].ProductColorId" class="form-select">
+                ${colorOptions}
+            </select>
+        </td>
+
+        <td>
+            <select name="Rows[${rowIndex}].ProductSizeId" class="form-select">
+                ${sizeOptions}
+            </select>
+        </td>
+
+        <td>
+            <input name="Rows[${rowIndex}].Quantity"
+                   type="number"
+                   min="0"
+                   value="0"
+                   class="form-control" />
+        </td>
+
+        <td class="text-center">
+            <button type="button"
+                    class="btn btn-danger"
+                    onclick="removeRow(this)">
+                Delete
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+    rowIndex++;
+}
+
+function removeRow(btn) {
+    btn.closest('tr').remove();
+}

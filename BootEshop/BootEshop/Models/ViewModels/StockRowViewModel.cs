@@ -8,6 +8,5 @@ public class StockRowViewModel
     public Guid ProductSizeId { get; set; }
 
     public int Quantity { get; set; }
-
-    public bool Delete { get; set; }
+    
 }

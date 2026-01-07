@@ -81,7 +81,7 @@
     <div class="col-md-6">
         <label class="form-label d-block mb-2">Barva</label>
         <div class="d-flex flex-wrap gap-2">
-            @foreach (var color in Model.Colors)
+            @foreach (var color in Model.ProductColors)
             {
                 var isChecked = Model.ProductColorIds.Contains(color.Id) ? "checked" : "";
                 <div class="form-check">
@@ -113,7 +113,7 @@
     <div class="col-md-6">
         <label class="form-label d-block mb-2">Velikost</label>
         <div class="d-flex flex-wrap gap-2">
-            @foreach (var size in Model.Sizes)
+            @foreach (var size in Model.ProductSizes)
             {
                 var isChecked = Model.ProductSizeIds.Contains(size.Id) ? "checked" : "";
                 <div class="form-check">

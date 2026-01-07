@@ -18,6 +18,7 @@ public static class EshopServicesExtension
         services.AddScoped<ManufacturerService>();
         services.AddScoped<CategoryService>();
         services.AddScoped<SourceService>();
+        services.AddScoped<StockService>();
         
         
         return services;

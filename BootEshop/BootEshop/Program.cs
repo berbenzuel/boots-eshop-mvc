@@ -91,7 +91,7 @@ namespace BootEshop
                     .GetRequiredService<UserManager<User>>();
 
                 var adminEmail = "admin@admin";
-                var adminPassword = "1234";
+                var adminPassword = "123456Ab";
 
                 var admin = await userManager.FindByEmailAsync(adminEmail);
 

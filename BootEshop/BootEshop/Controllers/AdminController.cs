@@ -79,9 +79,9 @@ public class AdminController : Controller
                     Text = x.Name
                 }),
 
-            Colors = _colorService.GetEntities(),
+            ProductColors = _colorService.GetEntities(),
 
-            Sizes = _sizeService.GetEntities()
+            ProductSizes = _sizeService.GetEntities()
         };
 
         return View(model);
@@ -94,7 +94,13 @@ public class AdminController : Controller
             .First(p => p.Id == productId);
         var stocks = _stockService.GetEntities()
             .Where(s => s.ProductId == productId);
- 
+        var rows = stocks.Select(s => new StockRowViewModel()
+        {
+            Id = s.Id,
+            ProductColorId = s.ProductColorId,
+            ProductSizeId = s.ProductSizeId,
+            Quantity = s.Quantity,
+        }).ToList();
         var model = new EditProductViewModel()
         {
             Id = product.Id,
@@ -106,10 +112,9 @@ public class AdminController : Controller
             SalePrice = product.SalePrice,
             CategoryId = product.ProductCategoryId,
             ManufacturerId = product.ManufacturerId,
-            Stocks = stocks,
-            ExistingImages = _sourceService.GetProductImagePaths(productId)
+            ExistingImages = _sourceService.GetProductImagePaths(productId)?
                 .Select(f => Path.GetFileName(f))
-                .ToList(),
+                .ToList() ?? new List<string>(),
             
             Categories = _categoryService.GetEntities()
                 .Select(x => new SelectListItem
@@ -124,10 +129,22 @@ public class AdminController : Controller
                     Value = x.Id.ToString(),
                     Text = x.Name
                 }),
+            
+            Rows = rows,
 
-            Colors = _colorService.GetEntities(),
+            Colors = _colorService.GetEntities()
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                }).ToList(),
 
             Sizes = _sizeService.GetEntities()
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Size.ToString()
+                }).ToList()
         };
 
         return View(model);
@@ -143,7 +160,7 @@ public class AdminController : Controller
             .Include(p => p.ProductSize)
             .Where(p => p.ProductId == model.Id);
 
-        var product =  _productService.GetEntity(stock.ProductId);
+        var product =  _productService.GetEntity(model.Id);
 
 
 
@@ -157,16 +174,10 @@ public class AdminController : Controller
 
         product.ProductCategory = _categoryService.GetEntity(model.CategoryId);
         product.Manufacturer = _manufacturerService.GetEntity(model.ManufacturerId);
-
-        foreach (var color in model.ProductColorIds)
-        {
-            
-        }
-        productSize = _sizeService.GetEntities().Where(s => model.ProductSizeIds.Contains(s.Id)).ToList();
-        productColor = _colorService.GetEntities().Where(s => model.ProductColorIds.Contains(s.Id)).ToList();
+        
     
         
-        _productService.UpdateEntity(stock.Product);
+        _productService.UpdateEntity(product);
         var files = new List<IFormFile>();
         foreach (var item in model.ImageOrder)
         {
@@ -188,11 +199,11 @@ public class AdminController : Controller
                 files.Add(formFile);
             }
         }
-        _sourceService.UploadProductImages(stock.Product.Id, files);
+        _sourceService.UploadProductImages(model.Id, files);
 
         return RedirectToAction("ProductOverview");
         return RedirectToAction("ProductOverview");
-        _sourceService.UploadProductImages(stock.Product.Id, model.Images);
+        _sourceService.UploadProductImages(model.Id, model.Images);
 
         TempData["SuccessMessage"] = "Maminka je na tebe pyšná ❤️";
         return RedirectToAction(nameof(ProductOverview));
@@ -223,8 +234,6 @@ public class AdminController : Controller
 
             ProductCategoryId = model.CategoryId,
             ManufacturerId = model.ManufacturerId,
-            ProductSizes = _sizeService.GetEntities().Where(s => model.ProductSizeIds.Contains(s.Id)).ToArray(),
-            ProductColors = _colorService.GetEntities().Where(s => model.ProductColorIds.Contains(s.Id)).ToArray(),
         };
 
         _productService.AddEntity(product);
